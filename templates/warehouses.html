@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة المستودعات</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Tajawal', 'Segoe UI', sans-serif;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: #343a40;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .navbar-brand {
+            font-weight: bold;
+            color: #ffffff !important;
+            display: flex;
+            align-items: center;
+        }
+        .navbar-brand img {
+            height: 40px;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        .nav-link {
+            color: #ffffff !important;
+            transition: color 0.3s;
+        }
+        .nav-link:hover {
+            color: #28a745 !important;
+        }
+        .warehouses-section {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin: 20px auto;
+        }
+        .warehouses-section h2 {
+            color: #28a745;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .table {
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .table thead {
+            background-color: #28a745;
+            color: #ffffff;
+        }
+        .table th, .table td {
+            vertical-align: middle;
+            text-align: center;
+        }
+        .table tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .table tbody tr:hover {
+            background-color: #e9ecef;
+            transition: background-color 0.3s ease;
+        }
+
+        .alert {
+            border-radius: 8px;
+        }
+
+        .btn-primary {
+            background-color: #28a745;
+            border-color: #28a745;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #218838;
+            border-color: #218838;
+        }
+        .btn-warning {
+            background-color: #ffc107;
+            border-color: #ffc107;
+        }
+        .btn-warning:hover {
+            background-color: #e0a800;
+            border-color: #e0a800;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #c82333;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #5a6268;
+        }
+        .btn i {
+            margin-right: 5px;
+        }
+
+      
+        .footer {
+            background-color: #343a40;
+            color: #ffffff;
+            padding: 40px 0;
+            margin-top: 60px;
+        }
+        .footer h5 {
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        .footer a {
+            color: #ffffff;
+            margin-left: 15px;
+            transition: color 0.3s;
+        }
+        .footer a:hover {
+            color: #28a745;
+        }
+    </style>
+</head>
+<body>
+   <!-- Top Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ url_for('index') }}">
+                <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="سوبر ماركت الشني" style="width: 200px; height: auto;">
+                سوبر ماركت الشني
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('owner') }}"><i class="fas fa-tachometer-alt"></i> لوحة التحكم</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('index') }}"><i class="fas fa-home"></i> الرئيسية</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-outline-light ms-2" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+   <!-- Warehouse Management section -->
+    <div class="container">
+        <div class="warehouses-section">
+            <h2><i class="fas fa-warehouse"></i> إدارة المستودعات</h2>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="alert alert-info">
+                        {% for message in messages %}
+                            {{ message }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            <a href="{{ url_for('add_warehouse') }}" class="btn btn-primary mb-3"><i class="fas fa-plus"></i> إضافة مستودع</a>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>رقم المستودع</th>
+                        <th>الموقع</th>
+                        <th>إجراءات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for warehouse in warehouses %}
+                    <tr>
+                        <td>{{ warehouse[0] }}</td>
+                        <td>{{ warehouse[1] }}</td>
+                        <td>
+                            <a href="{{ url_for('edit_warehouse', warehouse_id=warehouse[0]) }}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> تعديل</a>
+                            <a href="{{ url_for('delete_warehouse', warehouse_id=warehouse[0]) }}" class="btn btn-sm btn-danger" onclick="return confirm('هل أنت متأكد؟')"><i class="fas fa-trash"></i> حذف</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a href="{{ url_for('owner') }}" class="btn btn-secondary"><i class="fas fa-arrow-right"></i> العودة</a>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>تواصل معنا</h5>
+                    <p>البريد الإلكتروني: support@supermart.com</p>
+                    <p>الهاتف: +961-123-456</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>تابعنا</h5>
+                    <a href="#" class="text-white"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-white"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-white"><i class="fab fa-instagram"></i></a>
+                </div>
+                <div class="col-md-4">
+                    <h5>معلومات المتجر</h5>
+                    <p>© 2025 سوبر ماركت الشني. جميع الحقوق محفوظة.</p>
+                    <p>التاريخ والوقت: 9 يونيو 2025، 07:35 م EEST</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

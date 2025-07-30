@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إضافة عميل</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Tajawal', 'Segoe UI', sans-serif;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background-color: #343a40;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .navbar-brand {
+            font-weight: bold;
+            color: #ffffff !important;
+            display: flex;
+            align-items: center;
+        }
+        .navbar-brand img {
+            height: 40px;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        .nav-link {
+            color: #ffffff !important;
+            transition: color 0.3s;
+        }
+        .nav-link:hover {
+            color: #28a745 !important;
+        }
+        .form-section {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin: 20px auto;
+        }
+        .form-section h2 {
+            color: #28a745;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+        .form-control {
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+        }
+        .form-control:focus {
+            border-color: #28a745;
+            box-shadow: 0 0 5px rgba(40, 167, 69, 0.3);
+        }
+        .btn-primary {
+            background-color: #28a745;
+            border-color: #28a745;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #218838;
+            border-color: #218838;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #5a6268;
+        }
+        .btn i {
+            margin-right: 5px;
+        }
+        .footer {
+            background-color: #343a40;
+            color: #ffffff;
+            padding: 40px 0;
+            margin-top: 60px;
+        }
+        .footer h5 {
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        .footer a {
+            color: #ffffff;
+            margin-left: 15px;
+            transition: color 0.3s;
+        }
+        .footer a:hover {
+            color: #28a745;
+        }
+    </style>
+</head>
+<body>
+   <!-- Top menu -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ url_for('owner') }}">
+                <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="سوبر ماركت الشني" style="width: 200px; height: auto;">
+                سوبر ماركت الشني
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('owner') }}"><i class="fas fa-tachometer-alt"></i> لوحة التحكم</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('owner') }}"><i class="fas fa-home"></i> الرئيسية</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-outline-light ms-2" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Add customer Section -->
+    <div class="container">
+        <div class="form-section">
+            <h2><i class="fas fa-plus-circle"></i> إضافة عميل جديد</h2>
+            <form method="POST">
+                <div class="mb-3">
+                    <label for="name" class="form-label">الاسم</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="phone_number" class="form-label">رقم الهاتف</label>
+                    <input type="text" class="form-control" id="phone_number" name="phone_number" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">البريد الإلكتروني</label>
+                    <input type="email" class="form-control" id="email" name="email">
+                </div>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> إضافة</button>
+                <a href="{{ url_for('customers') }}" class="btn btn-secondary"><i class="fas fa-times"></i> إلغاء</a>
+            </form>
+        </div>
+    </div>
+
+    <!-- footer section -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>تواصل معنا</h5>
+                    <p>البريد الإلكتروني: support@supermart.com</p>
+                    <p>الهاتف: +961-123-456</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>تابعنا</h5>
+                    <a href="#" class="text-white"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-white"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-white"><i class="fab fa-instagram"></i></a>
+                </div>
+                <div class="col-md-4">
+                    <h5>معلومات المتجر</h5>
+                    <p>© 2025 سوبر ماركت الشني. جميع الحقوق محفوظة.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

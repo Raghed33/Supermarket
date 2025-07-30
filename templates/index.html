@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>سوبر ماركت - الرئيسية</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      background-color: #f0e9e9;
+      font-family: 'Segoe UI', 'Tajawal', sans-serif;
+      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
+    }
+    .navbar-brand {
+      font-weight: bold;
+      color: #e1d9d7;
+    }
+    .navbar-brand img {
+      height: 40px;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+    .hero {
+      background: url('images/banner-1.jpg') center/cover no-repeat;
+      height: 400px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.8);
+      border-radius: 0 0 15px 15px;
+      position: relative;
+    }
+    .hero h1 {
+      font-size: 60px;
+      animation: fadeIn 2s;
+      text-transform: uppercase;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .category-section {
+      background-color: #fff;
+      padding: 40px;
+      margin: 0 auto;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 50vh;
+      flex-direction: column;
+    }
+    .category-item {
+      transition: transform 0.3s;
+      text-align: center;
+      padding: 15px;
+      background-color: #f8f9fa;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin: 0 10px;
+      width: 200px;
+    }
+    .category-item:hover {
+      transform: scale(1.05);
+      background-color: #e9ecef;
+    }
+    .product-shelf {
+      background-color: #fff;
+      padding: 30px;
+      margin: 20px auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .card {
+      transition: transform 0.3s;
+      border: none;
+      background-color: #f8f9fa;
+      border-radius: 8px;
+    }
+    .card:hover {
+      transform: scale(1.03);
+      background-color: #e0e0e0;
+    }
+    .custom-btn {
+      background-color: #ff5722;
+      border-color: #ff5722;
+    }
+    .custom-btn:hover {
+      background-color: #e64a19;
+      border-color: #e64a19;
+    }
+    .footer {
+      background-color: #343a40;
+      color: white;
+      padding: 20px 0;
+    }
+    .carousel-inner .row {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+    }
+    .carousel-item {
+      display: flex;
+      justify-content: center;
+      scroll-snap-align: center;
+    }
+    .category-item {
+      flex: 0 0 auto;
+      scroll-snap-align: center;
+    }
+    .card-img-top {
+      height: 200px;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="Shinin Logo" style="width: 200px; height: auto;">
+        سوبر ماركت الشني
+      </a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="{{ url_for('index') }}"><i class="fas fa-home"></i> الرئيسية</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('search_products') }}"><i class="fas fa-search"></i> البحث</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('cart') }}"><i class="fas fa-shopping-cart"></i> السلة (<span id="cart-count">0</span>)</a></li>
+          {% if session.get('username') %}
+            <li class="nav-item"><a class="nav-link btn btn-outline-light ms-2" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a></li>
+          {% else %}
+            <li class="nav-item"><a class="nav-link btn btn-outline-light ms-2" href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <div class="hero">
+    <h1>أهلاً بك في سوبر ماركت الشني {{ session.get('username', 'ضيف') }}!</h1>
+  </div>
+
+  <!-- Categories Section -->
+  <div class="container category-section">
+    <h2 class="text-center mb-4"><i class="fas fa-list"></i>الاطلاع على الفئات</h2>
+    <div class="row justify-content-center">
+      <div class="col-md-2">
+        <div class="category-item">
+            <i class="fas fa-cheese fa-2x text-warning"></i>
+            <h5>منتجات الألبان</h5>
+            <a href="{{ url_for('dairy_products') }}?category= منتجات ألبان" class="btn custom-btn btn-sm">استكشف</a>
+        </div>
+        </div>
+      <div class="col-md-2">
+        <div class="category-item">
+          <i class="fas fa-apple-alt fa-2x text-success"></i>
+          <h5>الفواكه و الخضار</h5>
+          <a href="{{ url_for('fruits_and_vegetables') }}?category=الفواكه و الخضار" class="btn custom-btn btn-sm">استكشف</a>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="category-item">
+          <i class="fas fa-bread-slice fa-2x text-danger"></i>
+          <h5>المخبوزات</h5>
+          <a href="{{ url_for('breads') }}?category=المخبوزات" class="btn custom-btn btn-sm">استكشف</a>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="category-item">
+          <i class="fas fa-drumstick-bite fa-2x text-info"></i>
+          <h5>اللحوم</h5>
+          <a href="{{ url_for('meats_frozen') }}?category=اللحوم" class="btn custom-btn btn-sm">استكشف</a>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="category-item">
+          <i class="fas fa-glass-whiskey fa-2x text-primary"></i>
+          <h5>المشروبات</h5>
+          <a href="{{ url_for('beverages') }}?category=المشروبات" class="btn custom-btn btn-sm">استكشف</a>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="category-item">
+          <i class="fas fa-cookie-bite fa-2x text-dark"></i>
+          <h5>التسالي</h5>
+          <a href="{{ url_for('snacks') }}?category=التسالي" class="btn custom-btn btn-sm">استكشف</a>
+        </div>
+      </div>
+      <a href="{{ url_for('cart') }}" class="btn custom-btn mt-4">تسوق الآن <i class="fas fa-shopping-basket"></i></a>
+    </div>
+  </div>
+
+  <!-- Featured Products Section -->
+  <div class="container product-shelf">
+    <h2 class="text-center mb-4"><i class="fas fa-star"></i> المنتجات المميزة</h2>
+    <div class="row">
+      {% set products = [
+        {'id': 1, 'name': 'حليب طازج', 'price': 5, 'category': 'منتجات الألبان', 'image': 'images/milk.jpg'},
+        {'id': 2, 'name': 'تفاح ', 'price': 1, 'category': 'الفواكه', 'image': 'images/apple.jpg'},
+        {'id': 3, 'name': 'خبز قمح ', 'price': 5, 'category': 'المخبوزات', 'image': 'images/bread.jpg'},
+        {'id': 4, 'name': 'نجت دجاج', 'price':12, 'category': 'اللحوم', 'image': 'images/meats7.jpg'}
+      ] %}
+      {% for product in products %}
+        <div class="col-md-3 mb-4">
+          <div class="card h-100">
+            <img src="{{ url_for('static', filename=product.image) }}" class="card-img-top" alt="{{ product.name }}">
+            <div class="card-body text-center">
+              <h5 class="card-title">{{ product.name }}</h5>
+              <p class="card-text"><i class="fas fa-tag"></i> {{ "%.2f"|format(product.price) }} شيكل</p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <div class="text-center mt-3">
+      <a href="{{ url_for('search_products') }}" class="btn custom-btn">عرض جميع المنتجات <i class="fas fa-arrow-left"></i></a>
+    </div>
+  </div>
+
+  <!-- Role-based Content -->
+  <div class="container mt-5">
+    {% if session.get('role') == 'customer' %}
+      <div class="alert alert-success text-center" role="alert">
+        <h4><i class="fas fa-user"></i> مرحبًا، {{ session.get('username', 'عزيزي المشتري') }}!</h4>
+        <p>استمتع بتجربة التسوق الممتعة في سوبر ماركتنا! ابحث عن منتجاتك المفضلة وأضفها إلى سلتك.</p>
+        <a href="{{ url_for('cart') }}" class="btn custom-btn">تصفح الآن <i class="fas fa-shopping-bag"></i></a>
+      </div>
+    {% endif %}
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <h5>تواصل معنا</h5>
+          <p>البريد الإلكتروني: support@supermart.com</p>
+          <p>الهاتف: +961-123-456</p>
+        </div>
+        <div class="col-md-4">
+          <h5>تابعنا</h5>
+          <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="text-white"><i class="fab fa-instagram"></i></a>
+        </div>
+        <div class="col-md-4">
+          <h5>معلومات المتجر</h5>
+          <p>© 2025 سوبر ماركت. جميع الحقوق محفوظة.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function updateCartCount() {
+      const cart = {{ session.get('cart', {}) | tojson | safe }};
+      document.getElementById('cart-count').textContent = cart ? Object.keys(cart).length : 0;
+    }
+    updateCartCount();
+  </script>
+
+</body>
+</html>

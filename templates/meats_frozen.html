@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>سوبر ماركت - اللحوم ومشتقاتها والمتجمدات</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', 'Tajawal', sans-serif;
+      background-color: #f8f9fa;
+    }
+    .navbar {
+      background-color: #343a40;
+    }
+    .navbar-brand, .nav-link {
+      color: #ffffff !important;
+    }
+    .product-shelf {
+      background-color: #fff;
+      padding: 30px;
+      margin: 20px auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .card {
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: scale(1.05);
+    }
+    .custom-btn {
+      background-color: #ff5722;
+      border-color: #ff5722;
+    }
+    .custom-btn:hover {
+      background-color: #e64a19;
+      border-color: #e64a19;
+    }
+    .btn-primary {
+      background-color: #28a745;
+      border-color: #28a745;
+    }
+    .btn-primary:hover {
+      background-color: #218838;
+      border-color: #218838;
+    }
+    .footer {
+      background-color: #343a40;
+      color: white;
+      padding: 20px 0;
+      margin-top: 40px;
+    }
+    h2 {
+      color: #28a745;
+      margin-bottom: 20px;
+    }
+    .card-img-top {
+      height: 120px;
+      width: 100%;
+      object-fit: contain;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="Shinin Logo" style="width: 200px; height: auto;">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}"><i class="fas fa-home"></i> الرئيسية</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('search_products') }}"><i class="fas fa-search"></i> البحث</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('cart') }}"><i class="fas fa-shopping-cart"></i> السلة (<span id="cart-count">0</span>)</a></li>
+          {% if session.get('username') %}
+            <li class="nav-item"><a class="nav-link btn btn-outline-light ms-2" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a></li>
+          {% else %}
+            <li class="nav-item"><a class="nav-link btn btn-outline-light ms-2" href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container product-shelf mt-4">
+    <h2>اللحوم ومشتقاتها</h2>
+    <div class="row">
+      {% set meats = [
+        {'id': 1, 'name': 'لحم مفروم', 'price': 15.00, 'image': 'images/meats1.jpg'},
+        {'id': 2, 'name': 'دجاج', 'price': 13.00, 'image': 'images/meats2.jpg'},
+        {'id': 3, 'name': 'نجت دجاج', 'price': 12.00, 'image': 'images/meats7.jpg'},
+        {'id': 4, 'name': 'نقانق', 'price': 8.00, 'image': 'images/meats3.jpg'}
+      ] %}
+      {% for meat in meats %}
+        <div class="col-md-3 mb-4">
+          <div class="card h-100">
+            <img src="{{ url_for('static', filename=meat.image) }}" class="card-img-top" alt="{{ meat.name }}">
+            <div class="card-body text-center">
+              <h5 class="card-title">{{ meat.name }}</h5>
+              <p class="card-text"><i class="fas fa-tag"></i> {{ "%.2f"|format(meat.price) }} شيكل</p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <h2>المتجمدات</h2>
+    <div class="row">
+      {% set frozen = [
+        {'id': 5, 'name': 'خضروات مجمدة', 'price': 5.00, 'image': 'images/meats14.jpg'},
+        {'id': 6, 'name': 'فراولة مجمدة', 'price': 6.00, 'image': 'images/meats5.jpg'},
+        {'id': 7, 'name': ' توت اسود مجمدة', 'price': 7.00, 'image': 'images/meats6.jpg'},
+        {'id': 8, 'name': 'بطاطس مقلية مجمدة', 'price': 14.00, 'image': 'images/meats8.jpg'}, 
+        {'id': 9, 'name': 'بامية مجمدة', 'price': 8.00, 'image': 'images/meats4.jpg'}, 
+      ] %}
+      {% for item in frozen %}
+        <div class="col-md-3 mb-4">
+          <div class="card h-100">
+            <img src="{{ url_for('static', filename=item.image) }}" class="card-img-top" alt="{{ item.name }}">
+            <div class="card-body text-center">
+              <h5 class="card-title">{{ item.name }}</h5>
+              <p class="card-text"><i class="fas fa-tag"></i> {{ "%.2f"|format(item.price) }} شيكل</p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <a href="{{ url_for('cart') }}" class="btn custom-btn mt-5">الذهاب الى السلة<i class="fas fa-shopping-cart"></i></a>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <h5>تواصل معنا</h5>
+          <p>البريد الإلكتروني: support@supermart.com</p>
+          <p>الهاتف: +961-123-456</p>
+        </div>
+        <div class="col-md-4">
+          <h5>تابعنا</h5>
+          <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="text-white"><i class="fab fa-instagram"></i></a>
+        </div>
+        <div class="col-md-4">
+          <h5>معلومات المتجر</h5>
+          <p>© 2025 سوبر ماركت. جميع الحقوق محفوظة.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function updateCartCount() {
+      const cart = {{ session.get('cart', {})|tojson | safe }};
+      document.getElementById('cart-count').textContent = Object.keys(cart).length;
+    }
+    updateCartCount();
+  </script>
+</body>
+</html>

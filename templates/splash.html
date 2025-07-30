@@ -1,0 +1,64 @@
+<!-- templates/splash.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SHINImini</title>
+    <style>
+        body {
+            margin: 0;
+            background: url("/static/images/splash_bg.jpg") no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Segoe UI', sans-serif;
+            color: #333;
+        }
+        .overlay {
+            background-color: rgba(255, 255, 255, 0.7);
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0; left: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        h1 {
+            font-size: 48px;
+            color: #2D572C;
+        }
+        p {
+            font-size: 20px;
+        }
+        .btn {
+            margin-top: 20px;
+            padding: 10px 25px;
+            font-size: 18px;
+            background-color: #69b883;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #4ca66c;
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <h1>Welcome to SHINImini</h1>
+        <p>Everything You Need, Everyday</p>
+        <a href="{{ url_for('index') }}"><button class="btn">Enter Store</button></a>
+    </div>
+
+    <!-- Script to handle Enter key press -->
+    <script>
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                window.location.href = "{{ url_for('index') }}";
+            }
+        });
+    </script>
+</body>
+</html>
