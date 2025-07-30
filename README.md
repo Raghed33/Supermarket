@@ -68,18 +68,6 @@ The Customer is the end-user of the system and can:
 
 ---
 
-## 🚫 Out of Scope
-
-The following features are **not implemented** in this version:
-
-1. Real-time inventory sync across branches  
-2. Online payment integration (e.g., credit card, PayPal)  
-3. Mobile application version  
-4. Multi-language support  
-5. Email notifications or invoice generation  
-
----
-
 ## 🛠️ Technologies Used
 
 - **Backend**: Flask (Python)  
@@ -87,7 +75,4 @@ The following features are **not implemented** in this version:
 - **Frontend**: HTML / CSS (basic UI)  
 - **Tools**: SQL Workbench, Git
 
----
-
-## 📁 Project Structure
 
